@@ -1,4 +1,4 @@
-import React from 'react'
+import "./AddWarehouse.scss"
 
 function AddWarehouse() {
   return (

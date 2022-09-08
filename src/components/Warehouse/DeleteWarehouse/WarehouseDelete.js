@@ -1,4 +1,4 @@
-import React from 'react'
+import "./WarehouseDelete.scss"
 
 function WarehouseDelete() {
   return (

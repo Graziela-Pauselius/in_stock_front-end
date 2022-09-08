@@ -1,4 +1,4 @@
-import React from 'react'
+import "./WarehouseDetails.scss"
 
 function WarehouseDetails() {
   return (
