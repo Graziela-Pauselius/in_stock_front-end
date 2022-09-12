@@ -4,10 +4,16 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/global' as *;
 
+.mobile__view{
+	@include tablet{
+		display: none;
+	}
+}
+
 .row{
 	&__content5 {
 		display: flex;
-		justify-content: space-between;
+		justify-content: flex-start;
 
 		@include tablet {
 			// width: 64.85vw;
@@ -16,6 +22,13 @@
         @include desktop{
             width: 85%
         }
+	}
+	&__box5 {
+		margin-bottom: 0.6rem;
+		@include tablet {
+			width: 25%;
+			padding-right: 3%;
+		}
 	}
 	&__container5-right {
 		width: 75%;
