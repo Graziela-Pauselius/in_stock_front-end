@@ -1,69 +1,57 @@
-@use '../../../styles/mixins' as *;
-@use '../../../styles/variables' as *;
-@use '../../../styles/colours' as *;
-@use '../../../styles/typography' as *;
-@use '../../../styles/global' as *;
+@use "../../../styles/mixins" as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/colours" as *;
+@use "../../../styles/typography" as *;
+@use "../../../styles/global" as *;
 
-.mobile__view{
-	@include tablet{
-		display: none;
-	}
+.row {
+  &__content5 {
+    display: flex;
+    justify-content: space-between;
+
+    @include tablet {
+      // width: 64.85vw;
+      width: 85%;
+    }
+    @include desktop {
+      width: 87%;
+    }
+  }
+  &__container5-right {
+    width: 75%;
+
+    @include tablet {
+      width: 45%;
+    }
+
+    @include tablet {
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    @include desktop {
+      width: 56%;
+			padding-right: 2%;
+    }
+  }
+  &__container5-left {
+    width: 76%;
+
+    @include tablet {
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 55%;
+      padding-left: 2%;
+    }
+    @include desktop {
+      width: 58%;
+      padding-left: 2%;
+    }
+  }
+  &__btn-icon {
+    cursor: pointer;
+  }
 }
-
-.row{
-	&__content5 {
-		display: flex;
-		justify-content: flex-start;
-
-		@include tablet {
-			// width: 64.85vw;
-            width: 85%;
-		}
-        @include desktop{
-            width: 85%
-        }
-	}
-	&__box5 {
-		margin-bottom: 0.6rem;
-		@include tablet {
-			width: 25%;
-			padding-right: 3%;
-		}
-	}
-	&__container5-right {
-		width: 75%;
-
-		@include tablet {
-			width: 45%;
-		}
-
-		@include tablet {
-			flex-direction: row;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-		}
-        @include desktop {
-			width: 55%;
-		}
-
-	}
-    &__container5-left {
-		width: 76%;
-
-		@include tablet {
-			flex-direction: row;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-            width: 55%;
-            padding-left: 6%;
-		}
-        @include desktop {
-            width: 55%;
-            padding-left: 4%;
-        }
-
-	}
-}
-
