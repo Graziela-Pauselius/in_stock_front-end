@@ -25,7 +25,6 @@ const InventoryList = () => {
 		const getInventoryList = async () => {
 			try {
 				const response = await axios.get(`${API_URL}/inventory`);
-				console.log(response.data.inventoryData);
 				const inventoryData = response.data.inventoryData;
 				setInventory(inventoryData);
 			} catch (error) {

@@ -1,5 +1,3 @@
-//add new inventory item
-
 import React, { useEffect } from 'react'
 import './AddInventory.scss'
 import { useParams, useNavigate } from "react-router-dom";
@@ -9,8 +7,6 @@ import { useState } from 'react'
 function AddInventory() {
   const navigate = useNavigate();
   let param = useParams()
-  console.log(process.env.REACT_APP_API_URL)
-
   let [inventoryName, setInventoryName] = useState("")
   let [inventoryDescription, setInventoryDescription] = useState("")
   let [inventoryQuantity, setInventoryQuantity] = useState("")
@@ -19,15 +15,15 @@ function AddInventory() {
   let [inventoryStatus, setInventoryStatus] = useState("In Stock")
   let [inventoryId, setInventoryId] = useState("")
 
+  // controlled component functions
   const onNameChange = event => setInventoryName(event.target.value)
   const onDescriptionChange = event => setInventoryDescription(event.target.value)
   const onQuantityChange = event => setInventoryQuantity(event.target.value)
   const onCategoryChange = event => setInventoryCategory(event.target.value)
   const onWarehouseChange = event => setInventoryWarehouse(event.target.value)
 
-
+  // on load check if this is an edit item, if so fill the fields with the response from the server
   useEffect(() => {
-
     if (Object.keys(param).length !== 0) {
       axios.get(`http://localhost:8080/inventory/${param.itemId}`).then(response => {
         let inventoryItem = response.data.inventoryItem
@@ -37,18 +33,17 @@ function AddInventory() {
         setInventoryCategory(inventoryItem.category)
         setInventoryWarehouse(inventoryItem.warehouseName)
         setInventoryStatus(inventoryItem.status)
-
         setInventoryId(inventoryItem.id)
-
       })
     }
   }, [])
 
+  // validate function, check the fields and display an error message if needed
   let validater = (classToQuery, classToAddIfError) => {
     var itemValue = document.querySelector(classToQuery).value;
     var itemSelected = document.querySelector(classToQuery);
     var errorItemSelected = document.querySelector(classToQuery + "-error-message");
-    if (itemValue === "") {
+    if (itemValue === "" || itemValue === "Please select") {
       itemSelected.classList.add(classToAddIfError)
       errorItemSelected.style.display = "flex";
       return false
@@ -61,21 +56,13 @@ function AddInventory() {
     }
   }
 
+  // Check if all form fields are valid and if so create an object, send it to the server and go to previous page
   let submitHandler = () => {
     if (validater(".item-details__item-name-input", "item-details__item-name-input--error") === false) return
     if (validater(".item-details__item-description-input", "item-details__item-description-input--error") === false) return
     if (validater(".item-details__item-category-input", "item-details__item-category-input--error") === false) return
     if (validater(".item-availability__quantity-input", "item-availability__quantity-input--error") === false) return
     if (validater(".item-availability__item-warehouse-input", "item-availability__item-warehouse-input--error") === false) return
-    console.log("should only hit this point if there's text in everything")
-
-    //CALL THE SERVER HERE 
-    const dataToSend = JSON.stringify({ name: 'John Doe' });
-    var nameValue = document.querySelector(".item-details__item-name-input").value;
-    var descriptionValue = document.querySelector(".item-details__item-description-input").value;
-    var categoryValue = document.querySelector(".item-details__item-category-input").value;
-    var quantityValue = document.querySelector(".item-availability__quantity-input").value;
-    var warehouseValue = document.querySelector(".item-availability__item-warehouse-input").value;
     let objToSend = {
       warehouseName: inventoryWarehouse,
       itemName: inventoryName,
@@ -85,40 +72,25 @@ function AddInventory() {
       quantity: inventoryQuantity,
       id: inventoryId
     }
-    const stringifiedObject = JSON.stringify(objToSend);
-
-
     if (Object.keys(param).length > 0) {
-
       axios.put(`${process.env.REACT_APP_API_URL}/inventory/`, objToSend).then(() => {
         navigate(-1)
-        
       }
-      ) 
+      )
     } else {
-      console.log("is it making it this far?")
-      console.log(`${process.env.REACT_APP_API_URL}/inventory/`)
-      console.log(objToSend)
       axios.post(`${process.env.REACT_APP_API_URL}/inventory/`, objToSend).then(() => {
         navigate(-1)
         return
       })
     }
-
   }
-
 
   return (
     <>
       <div className="add-item-section__container">
-
         <section className="add-item-section">
-
           <div className="add-item-section__header">
-
-            
-              <img src={require('../../../assets/icons/arrow_back-24px.svg').default} className="add-item-section__header-icon" alt="" onClick={() => {navigate(-1)}} />
-            
+            <img src={require('../../../assets/icons/arrow_back-24px.svg').default} className="add-item-section__header-icon" alt="" onClick={() => { navigate(-1) }} />
             <div className="add-item-section__title">{Object.keys(param).length === 0 ? "Add New Inventory" : "Edit Inventory Item"}</div>
           </div>
           <form className='add-item-form' >
@@ -168,7 +140,6 @@ function AddInventory() {
                     <label htmlFor="item-status">Out of stock</label>
                   </div>
                 </div>
-
                 <label htmlFor="quantity" className='item-availability__quantity-label'>Quantity</label>
                 <input type="text" name="quantity" value={inventoryQuantity} onChange={onQuantityChange} className="item-availability__quantity-input" placeholder='0' />
                 <div className="item-availability__quantity-input-error-message">
@@ -194,9 +165,9 @@ function AddInventory() {
               </div>
             </div>
             <div className="add-item-section__buttons">
-              <button type='button' className='add-item-section__cancel-button'>Cancel</button>
+              <button type='button' className='add-item-section__cancel-button' onClick={() => { navigate(-1) }}>Cancel</button>
               <button type='button' className='add-item-section__add-button' onClick={submitHandler}>
-                + Add Item
+                {Object.keys(param).length === 0 ? "+ Add Item" : "Save"}
               </button>
             </div>
           </form>

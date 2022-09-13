@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import Modal from '../../Modal/Model';
-import WarehouseInventoryListItem from '../../WarehouseInventoryListItem/WarehouseInventoryListItem';
 import './WarehouseDetails.scss'
 import axios from 'axios'
-import ArrowIcon from "../../../assets/icons/arrow_back-24px.svg";
-import EditIcon from "../../../assets/icons/edit-24px.svg";
 import ArrowSort from "../../../assets/icons/sort-24px.svg";
 import WarehouseInventory from "../WarehouseInventory/WarehouseInventory";
 const API_URL = process.env.REACT_APP_API_URL;
-
 
 function WarehouseDetails({ }) {
   let params = useParams()
@@ -22,9 +18,6 @@ function WarehouseDetails({ }) {
   let [contactPhone, setContactPhone] = useState("")
   let [contactEmail, setContactEmail] = useState("")
   let [warehouseCity, setWarehouseCity] = useState("")
-  let [showDeleteModal, setshowDeleteModal] = useState(false)
-  let [deleteItemName, setdeleteItemName] = useState("")
-  let [deleteItemId, setdeleteItemId] = useState("")
   const [modal, setModal] = useState({
 		showModal: false,
 		activeId: "",
@@ -32,17 +25,11 @@ function WarehouseDetails({ }) {
 	});
 
   const getWarehouseDetails = () => {
-
-    console.log("warehouseId:", warehouseId)
     axios.get(`${API_URL}/${warehouseId}/inventory`).then((response) => {
       let warehouseDetailsData = response.data.warehouseInventory;
-
-
       setWarehouse(warehouseDetailsData);
     }).then(() => {
-
       axios.get("http://localhost:8080/" + params.warehouseId).then((res) => {
-
         console.log(res.data.warehouse)
         setWarhouseLocation(res.data.warehouse.name)
         setWarehouseAddress(res.data.warehouse.address)
@@ -51,15 +38,12 @@ function WarehouseDetails({ }) {
         setContactPhone(res.data.warehouse.contact.phone)
         setContactEmail(res.data.warehouse.contact.email)
         setWarehouseCity(res.data.warehouse.city)
-
       })
     })
 
   };
 
   useEffect(() => {
-
-
     getWarehouseDetails();
   }, [warehouseId, modal.showModal]);
 
@@ -70,15 +54,11 @@ function WarehouseDetails({ }) {
   }
 
   const openDeleteModal = (id, name) => {
-    
 		setModal({ showModal: !modal.showModal, activeName: name, activeId: id });
 	};
 
   return (
     <>
-      
-
-
       <section className="list__section">
         <div className="warehouse-details-section">
           <div className="warehouse-details-section__content">
@@ -127,11 +107,7 @@ function WarehouseDetails({ }) {
                 </div>
               </div>
             </div>
-
-
-
           </div>
-
         </div>
         <div className="list__container">
           <div className="list__label-container">
